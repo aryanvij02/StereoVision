@@ -40,15 +40,15 @@ def TakePictures():
                     print(counter)
 
                  #Check if directory exists. Save image if it exists. Create folder and then save images if it doesn't
-                    if path.isdir('images') == True:
+                    if path.isdir('../images') == True:
                         #zfill(2) is used to ensure there are always 2 digits, eg 01/02/11/12
-                        filename = "./images/image_" + str(counter).zfill(2) + ".png"
+                        filename = "../images/image_" + str(counter).zfill(2) + ".png"
                         cv2.imwrite(filename, images)
                         print("Image: " + filename + " is saved!")
                     else:
                         #Making directory
-                        os.makedirs("./images")
-                        filename = "./images/image_" + str(counter).zfill(2) + ".png"
+                        os.makedirs("../images")
+                        filename = "../images/image_" + str(counter).zfill(2) + ".png"
                         cv2.imwrite(filename, images)
                         print("Image: " + filename + " is saved!")
 

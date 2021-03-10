@@ -13,7 +13,7 @@ from stereovision.exceptions import ChessboardNotFoundError
 total_photos = 30
 
 # Chessboard parameters
-# Very important to change these parameters depending on the ChessBoard image used! Count number of squares - 1 is equals to row and columns
+# Must use 6 Rows and 9 Column chessboard
 rows = 6
 columns = 9
 square_size = 2.5
@@ -30,8 +30,8 @@ print('Start cycle')
 while photo_counter != total_photos:
     photo_counter += 1 
     print('Importing pair: ' + str(photo_counter))
-    leftName = './pairs/left_' + str(photo_counter).zfill(2) + '.png'
-    rightName = './pairs/right_' + str(photo_counter).zfill(2) + '.png'
+    leftName = '../pairs/left_' + str(photo_counter).zfill(2) + '.png'
+    rightName = '../pairs/right_' + str(photo_counter).zfill(2) + '.png'
     if os.path.isfile(leftName) and os.path.isfile(rightName):
         #reading the images in Color
         imgLeft = cv2.imread(leftName, 1)
@@ -71,6 +71,6 @@ rectified_pair = calibration.rectify((imgLeft, imgRight))
 cv2.imshow('Left Calibrated!', rectified_pair[0])
 cv2.imshow('Right Calibrated!', rectified_pair[1])
 #why save as jpg here and not png?
-cv2.imwrite("rectified_left.jpg", rectified_pair[0])
-cv2.imwrite("rectified_right.jpg", rectified_pair[1])
+cv2.imwrite("../rectified_left.jpg", rectified_pair[0])
+cv2.imwrite("../rectified_right.jpg", rectified_pair[1])
 cv2.waitKey(0)

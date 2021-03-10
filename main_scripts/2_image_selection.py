@@ -15,12 +15,12 @@ img_width = 320
 def SeperateImages():
     photo_counter = 1
     
-    if (os.path.isdir("./pairs") == False):
-        os.makedirs("./pairs")
+    if (os.path.isdir("../pairs") == False):
+        os.makedirs("../pairs")
         
     while photo_counter != total_photos:
         k = None
-        filename = './images/image_'+ str(photo_counter).zfill(2) + '.png'
+        filename = '../images/image_'+ str(photo_counter).zfill(2) + '.png'
         if os.path.isfile(filename) == False:
             print("No file named " + filename)
             photo_counter += 1
@@ -38,8 +38,8 @@ def SeperateImages():
             # save the photo
            imgLeft = pair_img[0:img_height, 0:img_width]  # Y+H and X+W
            imgRight = pair_img[0:img_height, img_width:photo_width]
-           leftName = './pairs/left_' + str(photo_counter).zfill(2) + '.png'
-           rightName = './pairs/right_' + str(photo_counter).zfill(2) + '.png'
+           leftName = '../pairs/left_' + str(photo_counter).zfill(2) + '.png'
+           rightName = '../pairs/right_' + str(photo_counter).zfill(2) + '.png'
            cv2.imwrite(leftName, imgLeft)
            cv2.imwrite(rightName, imgRight)
            print('Pair No ' + str(photo_counter) + ' saved.')

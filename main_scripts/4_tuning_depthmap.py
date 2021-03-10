@@ -34,7 +34,6 @@ def stereo_depth_map(rectified_pair, variable_mapping):
 
     #blockSize is the SAD Window Size
     sbm = cv2.StereoBM_create(numDisparities=16, blockSize=variable_mapping["SWS"]) 
-    # sbm.state SADWindowSize = SWS
     sbm.setPreFilterType(1)    
     sbm.setPreFilterSize(variable_mapping['PreFiltSize'])
     sbm.setPreFilterCap(variable_mapping['PreFiltCap'])
@@ -47,13 +46,10 @@ def stereo_depth_map(rectified_pair, variable_mapping):
     
 
     c, r = rectified_pair[0].shape
-    #disparity = np.zeros((c, r), np.uint8)
     dmLeft = rectified_pair[0]
     dmRight = rectified_pair[1]
-    #cv2.FindStereoCorrespondenceBM(dmLeft, dmRight, disparity, sbm)
     disparity = sbm.compute(dmLeft, dmRight)
 
-    #disparity_visual = cv.CreateMat(c, r, cv.CV_8U)
     local_max = disparity.max()
     local_min = disparity.min()
     '''print ("MAX " + str(local_max))
@@ -65,23 +61,18 @@ def stereo_depth_map(rectified_pair, variable_mapping):
     '''print ("MAX " + str(local_max))
     print ("MIN " + str(local_min))'''
     cv2.normalize(disparity, disparity_visual, 0, 255, cv2.NORM_MINMAX)
-    #disparity_visual = np.array(disparity_visual)
     return disparity_visual
 
 def save_load_map_settings(current_save, current_load, variable_mapping):
     global loading
     if current_save != 0:
         print('Saving to file...')
-        print(variable_mapping['MinDisp'])
-        # result = json.dumps({'SADWindowSize':cv2.getTrackbarPos("SWS", "Stereo"), 'preFilterSize':cv2.getTrackbarPos("PreFiltSize", "Stereo"), 'preFilterCap':cv2.getTrackbarPos("PreFiltCap", "Stereo"), 
-        #         'minDisparity':cv2.getTrackbarPos("MinDisp", "Stereo"), 'numberOfDisparities': cv2.getTrackbarPos("NumofDisp", "Stereo"), 'textureThreshold':cv2.getTrackbarPos("TxtrThrshld", "Stereo"), 
-        #         'uniquenessRatio':cv2.getTrackbarPos("UniqRatio", "Stereo"), 'speckleRange':cv2.getTrackbarPos("SpeckleRange", "Stereo"), 'speckleWindowSize':cv2.getTrackbarPos("SpeckleSize", "Stereo")},
-        #         sort_keys=True, indent=4, separators=(',',':'))
+
         result = json.dumps({'SADWindowSize':variable_mapping["SWS"], 'preFilterSize':variable_mapping['PreFiltSize'], 'preFilterCap':variable_mapping['PreFiltCap'], 
                 'minDisparity':variable_mapping['MinDisp'], 'numberOfDisparities': variable_mapping['NumofDisp'], 'textureThreshold':variable_mapping['TxtrThrshld'], 
                 'uniquenessRatio':variable_mapping['UniqRatio'], 'speckleRange':variable_mapping['SpeckleRange'], 'speckleWindowSize':variable_mapping['SpeckleSize']},
                 sort_keys=True, indent=4, separators=(',',':'))
-        fName = '3dmap_set.txt'
+        fName = '../3dmap_set.txt'
         f = open (str(fName), 'w')
         f.write(result)
         f.close()
@@ -90,7 +81,7 @@ def save_load_map_settings(current_save, current_load, variable_mapping):
 
     if current_load != 0:
         loading = True
-        fName = '3dmap_set.txt'
+        fName = '../3dmap_set.txt'
         print('Loading parameters from file...')
         f=open(fName, 'r')
         data = json.load(f)
@@ -117,9 +108,6 @@ def activateTrackbars(x):
 
 def create_trackbars() :
     global loading
-    # variables = ["SWS", "SpeckleSize", "SpeckleRange", "UniqRatio", "TxtrThrshld", "NumofDisp",
-    # "MinDisp", "PreFiltCap", "PreFiltSize"]
-    # for v in variables:
 
     #SWS cannot be larger than the image width and image heights.
     #In this case, width = 320 and height = 240
@@ -166,7 +154,7 @@ if __name__ == '__main__':
             left_gray_frame = cv2.cvtColor(left_frame, cv2.COLOR_BGR2GRAY)
             right_gray_frame = cv2.cvtColor(right_frame, cv2.COLOR_BGR2GRAY)
 
-            calibration = StereoCalibration(input_folder='calib_result')
+            calibration = StereoCalibration(input_folder='../calib_result')
             rectified_pair = calibration.rectify((left_gray_frame, right_gray_frame))
 
             #getting trackbar position and assigning to the variables
@@ -205,14 +193,9 @@ if __name__ == '__main__':
             #Convering Numpy Array to CV_8UC1
             image = np.array(disparity * 255, dtype = np.uint8)
             disparity_color = cv2.applyColorMap(image, cv2.COLORMAP_JET)
-            # print("disparity {}".format(disparity.shape))
-            # print("rect pair {}".format(rectified_pair[1].shape))
-            # print("Rect values {}".format(rectified_pair[1]))
-            # display_image = np.concatenate((disparity, rectified_pair[1]), 1)
-            
-            # print(type(disparity))
+          
             cv2.imshow("Stereo", disparity_color)
-            cv2.imshow("Left", rectified_pair[0])
+            cv2.imshow("Left", rectified_pair[0])qqqq
             k = cv2.waitKey(1) & 0xFF
             if k == ord('q'):
                 break

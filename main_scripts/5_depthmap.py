@@ -69,7 +69,7 @@ def stereo_depth_map(rectified_pair):
 if __name__ == "__main__":
     left_camera = Start_Cameras(0).start()
     right_camera = Start_Cameras(1).start()
-    load_map_settings("3dmap_set.txt")
+    load_map_settings("../3dmap_set.txt")
 
     while True:
 
