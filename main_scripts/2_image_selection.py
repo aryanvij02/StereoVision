@@ -34,7 +34,7 @@ def SeperateImages():
         #waits for any key to be pressed
         k = cv2.waitKey(0) & 0xFF
  
-        if k == ord('q'):
+        if k == ord('y'):
             # save the photo
            imgLeft = pair_img[0:img_height, 0:img_width]  # Y+H and X+W
            imgRight = pair_img[0:img_height, img_width:photo_width]
@@ -44,24 +44,25 @@ def SeperateImages():
            cv2.imwrite(rightName, imgRight)
            print('Pair No ' + str(photo_counter) + ' saved.')
            photo_counter += 1
-
-        elif k == 127:
-            continue
      
-        else:
+        elif k == ord('n'):
             # skip the photo
             photo_counter += 1
             print ("Please enter q to accept and w to skip")
+            
+        elif k == ord('q'):
+            break  
 
             
     
     print('End cycle')
+    cv2.destroyAllWindows()
     
 if __name__ == '__main__':
 
     print ("The paired images will be shown")
-    print ("Press q to accept & save the image")
-    print ("Press w to skip the image if it is blurry/unclear/cut-off") 
+    print ("Press Y to accept & save the image")
+    print ("Press N to skip the image if it is blurry/unclear/cut-off") 
     SeperateImages()
 
 
