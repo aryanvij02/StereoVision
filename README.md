@@ -21,6 +21,28 @@ PyPi: https://pypi.org/project/StereoVision/
 
 ## Depth map Tuning Variables
 
+## File Structure
+All the main scripts are in **main_scripts** directory
+
+In main_scripts:
+
+### start_cameras
+This script is used to access and start the Raspberry Pi cameras on the Jetson nano. It uses a GStreamer pipeline. To change camera capture resolution, use this script. 
+
+### 1_taking_pictures
+This script is used to take the pictures for calibration. You can change the timer between pictures and also the total number of pictures you want to take. 
+
+### 2_image_selection
+This script will loop through all the pictures taken in the previous script. This allows you to select high quality pictures for calibration and reject those that may affect the calibration's output. <br />
+It is extremely important to make sure that the picture is not cut out of the frame, blurry, or distorted in any other way. <br />
+Eventually, the frame will be split into left and right pairs, saving in the 'pairs' folder.
+
+### 3_calibration
+This script will do the calibration. <br />
+It will show you the chessboard corners for each pair. Please ensure that the quality of the corner detection is good. If not, retake your pictures.
+
+### 4_tuning_depthmap
+This script is used to tune the depth map. Description for all the variables is here:
 
 | Variables  | Description |
 | ------------- |:-------------:|
@@ -37,5 +59,6 @@ Sources:
 * https://docs.opencv.org/2.4/modules/calib3d/doc/camera_calibration_and_3d_reconstruction.html#stereosgbm-stereosgbm
 * https://docs.opencv.org/master/dd/d53/tutorial_py_depthmap.html
 
-## File Structure
-All the main scripts are in **main_scripts** directory
+### 5_depthmap
+
+This is the final script to run! Now we have our depth map!
