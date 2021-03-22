@@ -71,7 +71,7 @@ def save_load_map_settings(current_save, current_load, variable_mapping):
 
 
     if current_load != 0:
-        if path.isfile('../3dmap_set.txt') == True:
+        if os.path.isfile('../3dmap_set.txt') == True:
             loading = True
             fName = '../3dmap_set.txt'
             print('Loading parameters from file...')
