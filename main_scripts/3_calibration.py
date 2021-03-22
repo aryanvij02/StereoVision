@@ -62,7 +62,7 @@ print('Cycle Complete!')
 
 print('Starting calibration... It can take several minutes!')
 calibration = calibrator.calibrate_cameras()
-calibration.export('calib_result')
+calibration.export('../calib_result')
 print('Calibration complete!')
 
 # Lets rectify and show last pair after  calibration

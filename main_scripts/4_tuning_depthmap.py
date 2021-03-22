@@ -152,7 +152,7 @@ if __name__ == '__main__':
             left_gray_frame = cv2.cvtColor(left_frame, cv2.COLOR_BGR2GRAY)
             right_gray_frame = cv2.cvtColor(right_frame, cv2.COLOR_BGR2GRAY)
 
-            calibration = StereoCalibration(input_folder='./calib_result')
+            calibration = StereoCalibration(input_folder='../calib_result')
             rectified_pair = calibration.rectify((left_gray_frame, right_gray_frame))
 
             #getting trackbar position and assigning to the variables
