@@ -124,8 +124,6 @@ if __name__ == "__main__":
         left_grabbed, left_frame = left_camera.read()
         right_grabbed, right_frame = right_camera.read()
 
-        print(left_frame.shape)
-
         if left_grabbed and right_grabbed:
             images = np.hstack((left_frame, right_frame))
             cv2.imshow("images", images)
