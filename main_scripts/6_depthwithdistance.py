@@ -82,12 +82,11 @@ def objectDetection(item):
         print("Person is: {}cm away".format(distance))
 
 #Object Detection model 
-#net = jetson.inference.detectNet("ssd-mobilenet-v2", threshold=0.5)
+net = jetson.inference.detectNet("ssd-mobilenet-v2", threshold=0.5)
 
-#net = jetson.inference.detectNet("ssd-mobilenet-v2", threshold=0.5)
-net = jetson.inference.detectNet(argv=["--model=/home/aryan/RecalibCamera/SSD-Mobilenet-v2/ssd_mobilenet_v2_coco.uff",
-"--labels=/home/aryan/RecalibCamera/SSD-Mobilenet-v2/ssd_coco_labels.txt", 
-"--input-blob=Input", "--output-cvg=NMS", "--output-bbox=NMS_1"], threshold=0.5)
+# net = jetson.inference.detectNet(argv=["--model=/home/aryan/RecalibCamera/SSD-Mobilenet-v2/ssd_mobilenet_v2_coco.uff",
+# "--labels=/home/aryan/RecalibCamera/SSD-Mobilenet-v2/ssd_coco_labels.txt", 
+# "--input-blob=Input", "--output-cvg=NMS", "--output-bbox=NMS_1"], threshold=0.5)
 
 
 
