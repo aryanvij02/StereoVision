@@ -18,12 +18,11 @@ def TakePictures():
     if val.lower() == "y":
         left_camera = Start_Cameras(0).start()
         right_camera = Start_Cameras(1).start()
+        cv2.namedWindow("Images", cv2.WINDOW_NORMAL)
 
-        cv2.namedWindow("images", cv2.WINDOW_NORMAL)
-
-        t2 = datetime.now()
         counter = 0
-        while counter < total_photos:
+        t2 = datetime.now()
+        while counter <= total_photos:
             #setting the countdown
             t1 = datetime.now()
             countdown_timer = countdown - int((t1 - t2).total_seconds())
@@ -34,7 +33,7 @@ def TakePictures():
             if left_grabbed and right_grabbed:
                 #combine the two images together
                 images = np.hstack((left_frame, right_frame))
-                    #save the images once the countdown runs out
+                #save the images once the countdown runs out
                 if countdown_timer == -1:
                     counter += 1
                     print(counter)

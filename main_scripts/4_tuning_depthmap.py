@@ -1,15 +1,12 @@
-#Used to tune the depth map. Takes real time video from the cameras and let's you tune
-
+#Tune your depth map with real-time video from the cameras.
 import cv2
 import os
 import threading
 import numpy as np
 import time
 from datetime import datetime
-from matplotlib import pyplot as plt
-from matplotlib.widgets import Slider, Button
 import json
-from stereovision.calibration import StereoCalibrator
+# from stereovision.calibration import StereoCalibrator
 from stereovision.calibration import StereoCalibration
 from start_cameras import Start_Cameras
 
@@ -74,26 +71,30 @@ def save_load_map_settings(current_save, current_load, variable_mapping):
 
 
     if current_load != 0:
-        loading = True
-        fName = '../3dmap_set.txt'
-        print('Loading parameters from file...')
-        f=open(fName, 'r')
-        data = json.load(f)
+        if path.isfile('../3dmap_set.txt') == True:
+            loading = True
+            fName = '../3dmap_set.txt'
+            print('Loading parameters from file...')
+            f=open(fName, 'r')
+            data = json.load(f)
 
-        cv2.setTrackbarPos("SWS", "Stereo", data['SADWindowSize'])
-        cv2.setTrackbarPos("PreFiltSize", "Stereo", data['preFilterSize'])
-        cv2.setTrackbarPos("PreFiltCap", "Stereo", data['preFilterCap'])
-        cv2.setTrackbarPos("MinDisp", "Stereo", data['minDisparity']+100)
-        cv2.setTrackbarPos("NumofDisp", "Stereo", int(data['numberOfDisparities']/16))
-        cv2.setTrackbarPos("TxtrThrshld", "Stereo", data['textureThreshold'])
-        cv2.setTrackbarPos("UniqRatio", "Stereo", data['uniquenessRatio'])
-        cv2.setTrackbarPos("SpeckleRange", "Stereo", data['speckleRange'])
-        cv2.setTrackbarPos("SpeckleSize", "Stereo", data['speckleWindowSize'])
+            cv2.setTrackbarPos("SWS", "Stereo", data['SADWindowSize'])
+            cv2.setTrackbarPos("PreFiltSize", "Stereo", data['preFilterSize'])
+            cv2.setTrackbarPos("PreFiltCap", "Stereo", data['preFilterCap'])
+            cv2.setTrackbarPos("MinDisp", "Stereo", data['minDisparity']+100)
+            cv2.setTrackbarPos("NumofDisp", "Stereo", int(data['numberOfDisparities']/16))
+            cv2.setTrackbarPos("TxtrThrshld", "Stereo", data['textureThreshold'])
+            cv2.setTrackbarPos("UniqRatio", "Stereo", data['uniquenessRatio'])
+            cv2.setTrackbarPos("SpeckleRange", "Stereo", data['speckleRange'])
+            cv2.setTrackbarPos("SpeckleSize", "Stereo", data['speckleWindowSize'])
 
-        f.close()
-        print ('Parameters loaded from file '+fName)
-        print ('Redrawing depth map with loaded parameters...')
-        print ('Done!') 
+            f.close()
+            print ('Parameters loaded from file '+fName)
+            print ('Redrawing depth map with loaded parameters...')
+            print ('Done!') 
+
+        else: 
+            print ("File to load from doesn't exist.")
 
 def activateTrackbars(x):
     global loading
