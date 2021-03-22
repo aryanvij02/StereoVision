@@ -86,10 +86,10 @@ class Start_Cameras:
     # Here we directly select sensor_mode 3 (1280x720, 59.9999 fps)
     def gstreamer_pipeline(self,
             sensor_mode=3,
-            capture_width=640,
-            capture_height=480,
-            display_width=320,
-            display_height=240,
+            capture_width=1280,
+            capture_height=720,
+            display_width=640,
+            display_height=360,
             framerate=30,
             flip_method=0,
     ):
@@ -123,6 +123,8 @@ if __name__ == "__main__":
     while True:
         left_grabbed, left_frame = left_camera.read()
         right_grabbed, right_frame = right_camera.read()
+
+        print(left_frame.shape)
 
         if left_grabbed and right_grabbed:
             images = np.hstack((left_frame, right_frame))

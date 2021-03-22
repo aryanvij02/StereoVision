@@ -17,11 +17,10 @@ total_photos = 30
 rows = 6
 columns = 9
 square_size = 2.5
-#For the image_size, check what was set for the capture_width/height in 
-# the gstreamer pipeline (line 83) in start_cameras.py
-image_size = (320, 240)
 
-#This is the calibration class from the StereoVision package
+image_size = (640, 360)
+
+#This is the calibraation class from the StereoVision package
 calibrator = StereoCalibrator(rows, columns, square_size, image_size)
 photo_counter = 0
 print('Start cycle')
@@ -53,7 +52,10 @@ while photo_counter != total_photos:
             #add_corners function from the Class already helps us with cv2.imshow,
             #and hence we don't need to do it seperately 
             calibrator.add_corners((imgLeft, imgRight), True)
-            
+        
+    else:
+        print ("Pair not found")
+        continue
 
 
 print('Cycle Complete!')

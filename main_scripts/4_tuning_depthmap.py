@@ -28,11 +28,13 @@ loading = False
 
 
 def stereo_depth_map(rectified_pair, variable_mapping):
+
     '''print ('SWS='+str(SWS)+' PFS='+str(PFS)+' PFC='+str(PFC)+' MDS='+\
            str(MDS)+' NOD='+str(NOD)+' TTH='+str(TTH))
     print (' UR='+str(UR)+' SR='+str(SR)+' SPWS='+str(SPWS))'''
 
     #blockSize is the SAD Window Size
+    #Filter settings
     sbm = cv2.StereoBM_create(numDisparities=16, blockSize=variable_mapping["SWS"]) 
     sbm.setPreFilterType(1)    
     sbm.setPreFilterSize(variable_mapping['PreFiltSize'])
@@ -49,19 +51,11 @@ def stereo_depth_map(rectified_pair, variable_mapping):
     dmLeft = rectified_pair[0]
     dmRight = rectified_pair[1]
     disparity = sbm.compute(dmLeft, dmRight)
-
-    local_max = disparity.max()
-    local_min = disparity.min()
-    '''print ("MAX " + str(local_max))
-    print ("MIN " + str(local_min))'''
-    disparity_visual = (disparity-local_min)*(1.0/(local_max-local_min))
-    
-    local_max = disparity_visual.max()
-    local_min = disparity_visual.min()
-    '''print ("MAX " + str(local_max))
-    print ("MIN " + str(local_min))'''
-    cv2.normalize(disparity, disparity_visual, 0, 255, cv2.NORM_MINMAX)
-    return disparity_visual
+    disparity_normalized = cv2.normalize(disparity, None, 0, 255, cv2.NORM_MINMAX)
+    #Convering Numpy Array to CV_8UC1
+    image = np.array(disparity_normalized, dtype = np.uint8)
+    disparity_color = cv2.applyColorMap(image, cv2.COLORMAP_JET)
+    return disparity_color, disparity_normalized
 
 def save_load_map_settings(current_save, current_load, variable_mapping):
     global loading
@@ -125,6 +119,10 @@ def create_trackbars() :
     cv2.createTrackbar("Save Settings", "Stereo", 0, 1, activateTrackbars)
     cv2.createTrackbar("Load Settings","Stereo", 0, 1, activateTrackbars)
 
+def onMouse(event, x, y, flag, disparity_normalized):
+    if event == cv2.EVENT_LBUTTONDOWN:
+        distance = disparity_normalized[y][x]
+        print("Distance in centimeters {}".format(distance))
 
 
 
@@ -144,7 +142,6 @@ if __name__ == '__main__':
 
     variable_mapping = {"SWS" : 15, "SpeckleSize" : 100, "SpeckleRange" : 15, "UniqRatio" : 10, "TxtrThrshld" : 100, "NumofDisp" : 1,
     "MinDisp": -25, "PreFiltCap" : 30, "PreFiltSize" : 105}
-    # dict.fromkeys(variables)
 
     while True:
         left_grabbed, left_frame = left_camera.read()
@@ -154,7 +151,7 @@ if __name__ == '__main__':
             left_gray_frame = cv2.cvtColor(left_frame, cv2.COLOR_BGR2GRAY)
             right_gray_frame = cv2.cvtColor(right_frame, cv2.COLOR_BGR2GRAY)
 
-            calibration = StereoCalibration(input_folder='../calib_result')
+            calibration = StereoCalibration(input_folder='./calib_result')
             rectified_pair = calibration.rectify((left_gray_frame, right_gray_frame))
 
             #getting trackbar position and assigning to the variables
@@ -189,13 +186,14 @@ if __name__ == '__main__':
             save_load_map_settings(current_save, current_load, variable_mapping)
             cv2.setTrackbarPos("Save Settings", "Stereo", 0)
             cv2.setTrackbarPos("Load Settings", "Stereo", 0)
-            disparity = stereo_depth_map(rectified_pair, variable_mapping)
-            #Convering Numpy Array to CV_8UC1
-            image = np.array(disparity * 255, dtype = np.uint8)
-            disparity_color = cv2.applyColorMap(image, cv2.COLORMAP_JET)
-          
+            disparity_color, disparity_normalized = stereo_depth_map(rectified_pair, variable_mapping)
+
+            #What happens when the mouse is clicked
+            cv2.setMouseCallback("Stereo", onMouse, disparity_normalized)
+                      
             cv2.imshow("Stereo", disparity_color)
-            cv2.imshow("Left", rectified_pair[0])qqqq
+            cv2.imshow("Frame", np.hstack((rectified_pair[0], rectified_pair[1])))
+            
             k = cv2.waitKey(1) & 0xFF
             if k == ord('q'):
                 break

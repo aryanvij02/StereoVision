@@ -6,10 +6,10 @@ import os
 
 # Global variables preset
 total_photos = 30
-photo_width = 640
-photo_height = 240
-img_height = 240
-img_width = 320
+photo_height = 360
+photo_width = 1280
+img_height = 360
+img_width = 640
 
 
 def SeperateImages():
@@ -36,33 +36,33 @@ def SeperateImages():
  
         if k == ord('y'):
             # save the photo
-           imgLeft = pair_img[0:img_height, 0:img_width]  # Y+H and X+W
-           imgRight = pair_img[0:img_height, img_width:photo_width]
-           leftName = '../pairs/left_' + str(photo_counter).zfill(2) + '.png'
-           rightName = '../pairs/right_' + str(photo_counter).zfill(2) + '.png'
-           cv2.imwrite(leftName, imgLeft)
-           cv2.imwrite(rightName, imgRight)
-           print('Pair No ' + str(photo_counter) + ' saved.')
-           photo_counter += 1
+            imgLeft = pair_img[0:img_height, 0:img_width]  # Y+H and X+W
+            imgRight = pair_img[0:img_height, img_width:photo_width]
+            leftName = '../pairs/left_' + str(photo_counter).zfill(2) + '.png'
+            rightName = '../pairs/right_' + str(photo_counter).zfill(2) + '.png'
+            cv2.imwrite(leftName, imgLeft)
+            cv2.imwrite(rightName, imgRight)
+            print('Pair No ' + str(photo_counter) + ' saved.')
+            photo_counter += 1
      
         elif k == ord('n'):
             # skip the photo
             photo_counter += 1
-            print ("Please enter q to accept and w to skip")
+            print ("Skipped")
             
         elif k == ord('q'):
             break  
+  
 
             
     
     print('End cycle')
-    cv2.destroyAllWindows()
     
 if __name__ == '__main__':
 
     print ("The paired images will be shown")
-    print ("Press Y to accept & save the image")
-    print ("Press N to skip the image if it is blurry/unclear/cut-off") 
+    print ("Press q to accept & save the image")
+    print ("Press w to skip the image if it is blurry/unclear/cut-off") 
     SeperateImages()
 
 
