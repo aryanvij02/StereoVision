@@ -61,8 +61,8 @@ def SeperateImages():
 if __name__ == '__main__':
 
     print ("The paired images will be shown")
-    print ("Press q to accept & save the image")
-    print ("Press w to skip the image if it is blurry/unclear/cut-off") 
+    print ("Press Y to accept & save the image")
+    print ("Press N to skip the image if it is blurry/unclear/cut-off") 
     SeperateImages()
 
 

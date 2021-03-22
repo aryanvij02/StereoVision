@@ -85,8 +85,9 @@ def objectDetection(item):
 #net = jetson.inference.detectNet("ssd-mobilenet-v2", threshold=0.5)
 
 #net = jetson.inference.detectNet("ssd-mobilenet-v2", threshold=0.5)
-net = jetson.inference.detectNet(argv=["--model=../SSD-Mobilenet-v2/ssd_mobilenet_v2_coco.uff",
-"--labels=../SSD-Mobilenet-v2/ssd_coco_labels.txt"], threshold=0.5)
+net = jetson.inference.detectNet(argv=["--model=/home/aryan/RecalibCamera/SSD-Mobilenet-v2/ssd_mobilenet_v2_coco.uff",
+"--labels=/home/aryan/RecalibCamera/SSD-Mobilenet-v2/ssd_coco_labels.txt", 
+"--input-blob=Input", "--output-cvg=NMS", "--output-bbox=NMS_1"], threshold=0.5)
 
 
 
@@ -107,7 +108,7 @@ if __name__ == "__main__":
             right_gray_frame = cv2.cvtColor(right_frame, cv2.COLOR_BGR2GRAY)
 
             #calling all calibration results
-            calibration = StereoCalibration(input_folder='calib_result')
+            calibration = StereoCalibration(input_folder='calib_re  sult')
             rectified_pair = calibration.rectify((left_gray_frame, right_gray_frame))
             disparity_color, disparity_normalized = stereo_depth_map(rectified_pair)
 
