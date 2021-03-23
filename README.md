@@ -25,7 +25,7 @@ Accepted images will be split into left and right pairs and be saved into the 'p
 
 ### 3_calibration.py
 This will go through the point-matching process and show images for each pair: <br />
-![PointMatching](https://user-images.githubusercontent.com/75800604/112166857-fc0a9880-8c2a-11eb-8450-d82d3594171d.png)
+![PointMatching](https://user-images.githubusercontent.com/75800604/112166857-fc0a9880-8c2a-11eb-8450-d82d3594171d.png) <br />
 Ensure that the quality of the corner detection is good. If not, retake your pictures.
 
 ### 4_tuning_depthmap.py
@@ -52,6 +52,9 @@ After Calibration and Tuning, we finally have our depth map!
 
 ### 6_depthwithdistance
 To make things more interesting, I decided to combine a SSD-Mobilenet-v2 model running on TensorRT with this Depth Map. This enables us to determine the distance to people standing in the frame.  <br />
+
+## Final Product!
+[![](http://img.youtube.com/vi/NMsWMYsgkow/0.jpg)](http://www.youtube.com/watch?v=NMsWMYsgkow "Distance with Depth demo")
 
 
 
