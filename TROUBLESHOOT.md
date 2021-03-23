@@ -2,6 +2,7 @@
 
 ## Issues with starting the Cameras
 ### Gstreamer error
+![Gstreamer error](https://user-images.githubusercontent.com/75800604/112165043-599de580-8c29-11eb-9d85-e134ae8941d9.png)
 **Error**: The Gstreamer pipeline will fail to open
 
 **Solution**: `sudo service nvargus-daemon restart`
