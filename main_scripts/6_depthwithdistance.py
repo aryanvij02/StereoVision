@@ -123,10 +123,7 @@ if __name__ == "__main__":
 
 
             
-            # cv2.imshow("Frames", np.hstack((left_frame, right_frame)))
             left_stacked = cv2.addWeighted(left_frame, 0.5, disparity_color, 0.5, 0.0)
-            # right_stacked = cv2.addWeighted(right_frame, 0.5, disparity_color, 0.5, 0.0)
-            # cv2.imshow("Overlay", left_stacked)
             cv2.imshow("DepthMap", np.hstack((disparity_color, left_stacked)))
 
 

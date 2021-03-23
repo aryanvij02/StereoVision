@@ -6,7 +6,6 @@ import numpy as np
 import time
 from datetime import datetime
 import json
-# from stereovision.calibration import StereoCalibrator
 from stereovision.calibration import StereoCalibration
 from start_cameras import Start_Cameras
 
@@ -106,8 +105,6 @@ def create_trackbars() :
 
     #SWS cannot be larger than the image width and image heights.
     #In this case, width = 320 and height = 240
-
-    #https://stackoverflow.com/questions/46951610/opencv-python-trackbar-callback
     cv2.createTrackbar("SWS", "Stereo", 115, 230, activateTrackbars)
     cv2.createTrackbar("SpeckleSize", "Stereo", 0, 300, activateTrackbars)
     cv2.createTrackbar("SpeckleRange", "Stereo", 0, 40, activateTrackbars)
@@ -127,7 +124,6 @@ def onMouse(event, x, y, flag, disparity_normalized):
 
 
 
-#################################################################################################
 if __name__ == '__main__':
     left_camera = Start_Cameras(0).start()
     right_camera = Start_Cameras(1).start()

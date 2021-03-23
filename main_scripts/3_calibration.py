@@ -1,6 +1,3 @@
-#need to install StereoVision library first
-#pip install StereoVision
-
 import os
 import cv2
 import numpy as np
@@ -66,7 +63,6 @@ calibration.export('../calib_result')
 print('Calibration complete!')
 
 # Lets rectify and show last pair after  calibration
-###Why is calibration defined twice??
 calibration = StereoCalibration(input_folder='calib_result')
 rectified_pair = calibration.rectify((imgLeft, imgRight))
 

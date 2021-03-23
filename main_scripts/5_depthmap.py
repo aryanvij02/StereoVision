@@ -90,7 +90,9 @@ if __name__ == "__main__":
             cv2.setMouseCallback("DepthMap", onMouse, disparity_normalized)
 
             #Show depth map and image frames
-            cv2.imshow("DepthMap", disparity_color)
+            output = cv2.addWeighted(left_frame, 0.5, disparity_color, 0.5, 0.0)
+            cv2.imshow("DepthMap", np.hstack((disparity_color, output)))
+            
             cv2.imshow("Frames", np.hstack((left_frame, right_frame)))
 
             k = cv2.waitKey(1) & 0xFF
