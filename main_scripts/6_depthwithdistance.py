@@ -107,7 +107,7 @@ if __name__ == "__main__":
             right_gray_frame = cv2.cvtColor(right_frame, cv2.COLOR_BGR2GRAY)
 
             #calling all calibration results
-            calibration = StereoCalibration(input_folder='calib_re  sult')
+            calibration = StereoCalibration(input_folder='calib_result')
             rectified_pair = calibration.rectify((left_gray_frame, right_gray_frame))
             disparity_color, disparity_normalized = stereo_depth_map(rectified_pair)
 
