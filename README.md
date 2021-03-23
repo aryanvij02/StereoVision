@@ -1,10 +1,10 @@
 # Stereo Vision Camera: Depth Map and Distance measurement with Jetson Nano
 
+![Main](https://user-images.githubusercontent.com/75800604/112163680-37579800-8c28-11eb-9be6-ba3642a6783a.png)
+
 Welcome to the tutorial on how to create a Depth Map, do Object Detection, and determine the distance to objects using a Stereo Vision camera!
 
---Pictures etc
-
-Check out the step-by-step tutorial here:
+Check out the step-by-step tutorial here: 
 
 ## File Structure
 
@@ -23,18 +23,17 @@ Used to filter between good and poor quality images. Reject those with poor qual
 Press Y to accept and N to reject <br />
 Accepted images will be split into left and right pairs and be saved into the 'pairs' folder.
 
-### 3_calibration
-This is where the magic happens. <br />
-You will go through the point-matching process and see such images for each pair: <br />
-PICTURE <br />
+### 3_calibration.py
+This will go through the point-matching process and show images for each pair: <br />
+![PointMatching](https://user-images.githubusercontent.com/75800604/112166857-fc0a9880-8c2a-11eb-8450-d82d3594171d.png)
 Ensure that the quality of the corner detection is good. If not, retake your pictures.
 
-### 4_tuning_depthmap
+### 4_tuning_depthmap.py
 Tuning the depth map. Descriptions for all the variables are here:
 
 | Variables  | Description | Range |
 | ------------- |:-------------:| ------------- |
-| SAD Windows Size (SWS) | --- | 5 - 255 & Odd |
+| SAD Windows Size (SWS) | Computes the intensity difference for each center pixel. <br /> To learn more: https://www.researchgate.net/figure/Depth-maps-of-the-SAD-implementation-with-window-sizes-of-5x5left-7x7centre-and_fig9_266070395 | 5 - 255 & Odd |
 | Speckle Size      | Number of pixels below which a disparity blob is dismissed as "speckle."  | 0 - 300 |
 | Speckle Range  | Controls how close in value disparities must be to be considered part of the same blob.    | 0 - 40 |
 |   Uniqueness Ratio   |   Another post-filtering step. If the best matching disparity is not sufficiently better than every other<br /> disparity in the search range, the pixel is filtered out.  You can try tweaking this<br /> if texture_threshold and the speckle filtering are still letting through spurious matches.  | 1 - 20 |
@@ -42,14 +41,19 @@ Tuning the depth map. Descriptions for all the variables are here:
 |   Number of disparities   |   How many pixels to slide the window over. The larger it is, the larger the range <br /> of visible depths, but more computation is required.   | 0-256 & Divisible by 16 |
 |   Min Disparity   |   the offset from the x-position of the left pixel at which to begin searching.   | -100 - 100 | 
 |  Pre Filter Cap  | The pre-filtering phase, which normalizes image brightness and enhances texture <br /> in preparation for block matching.<br /> Normally you should not need to adjust these.    | 1 - 63 |
-| Pre Filter Size | ---- | 5 - 255 & Odd |
+| Pre Filter Size | The size of the Pre Filter Cap | 5 - 255 & Odd |
+
+Sources: 
+* https://docs.opencv.org/2.4/modules/calib3d/doc/camera_calibration_and_3d_reconstruction.html#stereosgbm-stereosgbm
+* https://docs.opencv.org/master/dd/d53/tutorial_py_depthmap.html
 
 ### 5_depthmap.py
 After Calibration and Tuning, we finally have our depth map! 
 
-### 6_depthwdistance
-Like to take things to the next level? That is what this is. Combining Computer Vision with Machine Learning, this enables us to detect eople in the frame and tell their distance away from the camera. <br />
-The range of the camera is limited depending on the seperation between the lenses, but your results should be relatively accurate between 20cm - 150cm!
+### 6_depthwithdistance
+To make things more interesting, I decided to combine a SSD-Mobilenet-v2 model running on TensorRT with this Depth Map. This enables us to determine the distance to people standing in the frame.  <br />
+
+
 
 ## Sources
 **Raspberry Pi**
@@ -64,19 +68,11 @@ Tutorial Video: https://www.youtube.com/watch?v=GQ3drRllX3I
 
 GitHub: https://github.com/JetsonHacksNano/CSI-Camera
 
+**Shoutout to my Colleagues at GovTech Singapore for providing support during my internship!**
+
 
 ## StereoVision Library
 GitHub: https://github.com/erget/StereoVision
 
 PyPi: https://pypi.org/project/StereoVision/
 
-
-
-
-Sources: 
-* https://docs.opencv.org/2.4/modules/calib3d/doc/camera_calibration_and_3d_reconstruction.html#stereosgbm-stereosgbm
-* https://docs.opencv.org/master/dd/d53/tutorial_py_depthmap.html
-
-### 5_depthmap
-
-This is the final script to run! Now we have our depth map!
